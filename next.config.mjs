@@ -1,19 +1,20 @@
 let userConfig = undefined;
 try {
-  // Intentar importar ESM primero
+  // Try ESM import first
   userConfig = await import('./v0-user-next.config.mjs');
 } catch (e) {
   try {
-    // Fallback a CJS
+    // Fallback to CJS
     userConfig = await import('./v0-user-next.config');
   } catch (innerError) {
-    // Ignorar si no existe
+    // Ignore if not found
   }
 }
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  basePath: '/Visualizador_Equipotenciales',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -21,27 +22,24 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: true, // Required for static exports
   },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  // Optional: Add these if you need them
+  trailingSlash: true, // Helps with static hosting
+  assetPrefix: '/Visualizador_Equipotenciales/', // If you need CDN support
 };
 
-// Mezclar configuraciones del archivo del usuario si existe
+// Merge with user config if exists
 if (userConfig) {
   const config = userConfig.default || userConfig;
   for (const key in config) {
-    if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
-    ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
-        ...config[key],
-      };
+    if (typeof nextConfig[key] === 'object' && !Array.isArray(nextConfig[key])) {
+      nextConfig[key] = { ...nextConfig[key], ...config[key] };
     } else {
       nextConfig[key] = config[key];
     }
