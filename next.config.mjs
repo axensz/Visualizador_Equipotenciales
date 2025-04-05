@@ -1,18 +1,19 @@
-let userConfig = undefined
+let userConfig = undefined;
 try {
-  userConfig = await import('./v0-user-next.config.mjs')
+  // Intentar importar ESM primero
+  userConfig = await import('./v0-user-next.config.mjs');
 } catch (e) {
   try {
-    userConfig = await import('./v0-user-next.config')
+    // Fallback a CJS
+    userConfig = await import('./v0-user-next.config');
   } catch (innerError) {
-    // ignore error
+    // Ignorar si no existe
   }
 }
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // ✅ Esto permite exportar a HTML estático (obligatorio para GitHub Pages)
-  basePath: process.env.NODE_ENV === 'production' ? '/Visualizador_Equipotenciales' : '', // ✅ nombre de tu repo (ajústalo si cambia)
+  output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -20,28 +21,31 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true, // ✅ Necesario para exportación estática
+    unoptimized: true,
   },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
-}
+};
 
-// Merge con configuración del usuario (si existe)
+// Mezclar configuraciones del archivo del usuario si existe
 if (userConfig) {
-  const config = userConfig.default || userConfig
+  const config = userConfig.default || userConfig;
   for (const key in config) {
-    if (typeof nextConfig[key] === 'object' && !Array.isArray(nextConfig[key])) {
+    if (
+      typeof nextConfig[key] === 'object' &&
+      !Array.isArray(nextConfig[key])
+    ) {
       nextConfig[key] = {
         ...nextConfig[key],
         ...config[key],
-      }
+      };
     } else {
-      nextConfig[key] = config[key]
+      nextConfig[key] = config[key];
     }
   }
 }
 
-export default nextConfig
+export default nextConfig;
