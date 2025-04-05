@@ -7,6 +7,29 @@
 
 Este proyecto es un visualizador interactivo que permite observar y entender cómo se comportan las líneas de campo eléctrico y las líneas equipotenciales generadas por dos barras cargadas. Se enfoca en ilustrar conceptos fundamentales del electromagnetismo de forma clara y visual.
 
+
+## Instalación
+
+1. Clona el repositorio
+---
+git clone https://github.com/axensz/Visualizador_Equipotenciales.git
+---
+
+2. Accede a la carpeta del proyecto
+---
+cd Visualizador_Equispotenciales
+---
+
+3. Instala las dependencias
+---
+npm install
+---
+
+4. Inicia el proyecto
+---
+npm run dev
+---
+   
 ---
 
 ## Conceptos Clave
