@@ -1,11 +1,9 @@
 let userConfig = undefined
 try {
-  // try to import ESM first
   userConfig = await import('./v0-user-next.config.mjs')
 } catch (e) {
   try {
-    // fallback to CJS import
-    userConfig = await import("./v0-user-next.config");
+    userConfig = await import('./v0-user-next.config')
   } catch (innerError) {
     // ignore error
   }
@@ -13,6 +11,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // ✅ Esto permite exportar a HTML estático (obligatorio para GitHub Pages)
+  basePath: process.env.NODE_ENV === 'production' ? '/Visualizador_Equipotenciales' : '', // ✅ nombre de tu repo (ajústalo si cambia)
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -20,7 +20,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: true, // ✅ Necesario para exportación estática
   },
   experimental: {
     webpackBuildWorker: true,
@@ -29,15 +29,11 @@ const nextConfig = {
   },
 }
 
+// Merge con configuración del usuario (si existe)
 if (userConfig) {
-  // ESM imports will have a "default" property
   const config = userConfig.default || userConfig
-
   for (const key in config) {
-    if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
-    ) {
+    if (typeof nextConfig[key] === 'object' && !Array.isArray(nextConfig[key])) {
       nextConfig[key] = {
         ...nextConfig[key],
         ...config[key],
