@@ -11,24 +11,24 @@ Este proyecto es un visualizador interactivo que permite observar y entender có
 ## Instalación
 
 1. Clona el repositorio
----
+```bash
 git clone https://github.com/axensz/Visualizador_Equipotenciales.git
----
+```
 
 2. Accede a la carpeta del proyecto
----
+```bash
 cd Visualizador_Equispotenciales
----
+```
 
 3. Instala las dependencias
----
+```bash
 npm install
----
+```
 
 4. Inicia el proyecto
----
+```bash
 npm run dev
----
+```
    
 ---
 
