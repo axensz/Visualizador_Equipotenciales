@@ -1,10 +1,6 @@
 # Visualizador de Líneas Equipotenciales y Campo Eléctrico
 
 **Laboratorio Electricidad y Magnetismo**  
-**Integrantes:**  
-- Samuel Arroyave  
-- Camilo Guzmán
-
 Este proyecto es un visualizador interactivo que permite observar y entender cómo se comportan las líneas de campo eléctrico y las líneas equipotenciales generadas por dos barras cargadas. Se enfoca en ilustrar conceptos fundamentales del electromagnetismo de forma clara y visual.
 
 
